@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { axiosInstance } from "../axios/axiosInstance";
-import { Navbar } from "../components/navbar";
+import { Navbar } from "../components/Navbar";
 import { ErrorToast, SuccessToast } from "../utils/toastHelper";
 import { Link } from "react-router";
 

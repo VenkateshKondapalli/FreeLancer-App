@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router";
-import { Navbar } from "../components/navbar";
+import { Navbar } from "../components/Navbar";
 import { axiosInstance } from "../axios/axiosInstance";
 import { useState } from "react";
 import { ErrorToast, SuccessToast } from "../utils/toastHelper";
