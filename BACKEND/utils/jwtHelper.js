@@ -8,7 +8,7 @@ const tokenHelper = (res, data) => {
     res.cookie("authorization", token, {
       maxAge: 1 * 24 * 60 * 60 * 1000,
       secure: true,
-      samesite: "none", //none for vercel and render for deployment
+      sameSite: "None", //none for vercel and render for deployment
       httponly: true,
     });
   } catch (err) {
@@ -21,7 +21,7 @@ const tokenRemover = (res, {}) => {
     res.cookie("authorization", "", {
       maxAge: 0,
       secure: true,
-      samesite: "none", //none for vercel and render for deployment
+      sameSite: "None", //none for vercel and render for deployment
       httponly: true,
     });
   } catch (err) {
