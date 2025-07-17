@@ -1,56 +1,64 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useAppContext } from "../context/appContext";
 import { axiosInstance } from "../axios/axiosInstance";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const { user = {} } = useAppContext();
   const { isAuthenticated } = user;
 
   const handleLogout = async () => {
     try {
       await axiosInstance.get("/auth/logout");
-      window.location.reload();
+      window.location.href = "/";
     } catch (err) {
       console.log(err);
     }
   };
 
   return (
-    <header className="bg-red-300 flex justify-between items-center p-4 shadow-md rounded-b-lg">
+    <header className="bg-gradient-to-r from-red-400 to-red-600 p-4 shadow-lg rounded-b-xl flex justify-between items-center">
       {/* Logo */}
       <div>
-        <Link to="/" className="text-xl font-bold text-white hover:underline">
-          MY App
+        <Link
+          to={isAuthenticated ? "/home" : "/"}
+          className="text-2xl font-extrabold text-white tracking-wide hover:scale-105 transform transition duration-300"
+        >
+          FreelanceHub
         </Link>
       </div>
 
-      {/* Right Side (Auth buttons or Logout + Profile Icon) */}
+      {/* Right Side */}
       <div className="flex items-center gap-4">
         {!isAuthenticated ? (
           <>
             <Link
               to="/signup"
-              className="text-white font-medium hover:text-red-100 transition"
+              className="text-white font-medium hover:underline underline-offset-2 transition duration-200"
             >
-              Signup
+              Sign Up
             </Link>
             <Link
               to="/login"
-              className="text-white font-medium hover:text-red-100 transition"
+              className="text-white font-medium hover:underline underline-offset-2 transition duration-200"
             >
-              Login
+              Log In
             </Link>
           </>
         ) : (
           <>
             <button
               onClick={handleLogout}
-              className="bg-white text-red-500 font-semibold px-4 py-1 rounded hover:bg-red-100 transition"
+              className="bg-white text-red-600 font-semibold px-4 py-2 rounded-full shadow-md hover:bg-red-50 transition duration-300"
             >
               Logout
             </button>
-            {/* Profile Icon shown only when logged in */}
-            <div className="h-9 w-9 rounded-full bg-violet-800 border-2 border-white shadow-md"></div>
+            <div
+              onClick={() => navigate("/profile")}
+              className="h-10 w-10 rounded-full bg-white flex items-center justify-center cursor-pointer shadow-inner hover:scale-105 transition"
+            >
+              <span className="text-red-600 font-bold">👤</span>
+            </div>
           </>
         )}
       </div>

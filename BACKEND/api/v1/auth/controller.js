@@ -94,7 +94,7 @@ const userLoginController = async (req, res) => {
     });
     return;
   }
-
+  // console.log(user.role);
   tokenHelper(res, { email: user.email, _id: user._id, role: user.role });
 
   res.status(200).json({

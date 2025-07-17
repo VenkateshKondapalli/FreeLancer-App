@@ -38,4 +38,4 @@ const freelancerSchema = new Schema(
 
 const freelancerModel = model("freelancer", freelancerSchema);
 
-module.exports = { otpModel };
+module.exports = { freelancerModel };

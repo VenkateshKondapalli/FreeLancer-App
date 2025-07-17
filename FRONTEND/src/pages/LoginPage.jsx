@@ -23,7 +23,7 @@ const LoginPage = () => {
 
       if (resp.status === 200) {
         SuccessToast(resp.data.message);
-        window.open("/", "_self");
+        window.open("/home", "_self");
       } else {
         ErrorToast(resp.data.message);
       }
@@ -33,15 +33,20 @@ const LoginPage = () => {
   };
 
   return (
-    <div>
+    <div className="bg-gradient-to-br from-yellow-100 to-orange-200 min-h-screen flex flex-col">
       <Navbar />
-      <div className="min-h-screen flex flex-col items-center bg-gray-50 pt-20">
-        <div className="w-full max-w-sm p-6 bg-white rounded-2xl shadow-md space-y-5 mt-6">
-          <h2 className="text-2xl font-bold text-center text-gray-800">
-            LOGIN
-          </h2>
 
-          <div className="space-y-2">
+      <div className="flex-grow flex items-center justify-center px-4 pt-10">
+        <div className="w-full max-w-md bg-white rounded-3xl shadow-xl p-8 space-y-6 transition-all duration-300">
+          <h2 className="text-3xl font-bold text-center text-gray-800">
+            Welcome Back
+          </h2>
+          <p className="text-sm text-center text-gray-500">
+            Please login to your FreelanceHub account
+          </p>
+
+          {/* Email */}
+          <div className="space-y-1">
             <label
               htmlFor="email"
               className="block text-sm font-medium text-gray-700"
@@ -51,13 +56,15 @@ const LoginPage = () => {
             <input
               type="email"
               id="email"
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-amber-100 focus:outline-none focus:ring-2 focus:ring-amber-400"
-              placeholder="Enter your email"
+              placeholder="example@mail.com"
               required
               onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
             />
           </div>
-          <div className="space-y-2">
+
+          {/* Password */}
+          <div className="space-y-1">
             <label
               htmlFor="password"
               className="block text-sm font-medium text-gray-700"
@@ -67,27 +74,28 @@ const LoginPage = () => {
             <input
               type="password"
               id="password"
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-amber-100 focus:outline-none focus:ring-2 focus:ring-amber-400"
               placeholder="Enter your password"
               required
               onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
             />
           </div>
-          <div>
-            <button
-              type="submit"
-              className="w-full py-2 bg-amber-400 hover:bg-amber-500 text-gray-800 font-semibold rounded-lg transition duration-200"
-              onClick={handleRegister}
-            >
-              Login
-            </button>
-          </div>
 
+          {/* Login Button */}
+          <button
+            type="submit"
+            onClick={handleRegister}
+            className="w-full bg-yellow-400 hover:bg-yellow-500 text-white font-semibold py-2 rounded-lg shadow-md transition"
+          >
+            Login
+          </button>
+
+          {/* Link to Signup */}
           <p className="text-sm text-center text-gray-600">
-            Register For Account?{" "}
+            Don't have an account?{" "}
             <Link
               to="/signup"
-              className="text-blue-600 hover:underline font-medium"
+              className="text-yellow-600 font-medium hover:underline"
             >
               Signup
             </Link>

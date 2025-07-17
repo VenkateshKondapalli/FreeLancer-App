@@ -15,6 +15,7 @@ const userAuthenticationMiddleware = (req, res, next) => {
     }
 
     jwt.verify(token, process.env.JWT_SECRET, (err, decodedData) => {
+      // console.log(decodedData);
       if (err) {
         return res.status(401).json({
           isSuccess: false,
