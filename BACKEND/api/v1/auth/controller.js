@@ -58,7 +58,7 @@ const setOtpContoller = async (req, res) => {
     const { email } = req.body;
 
     const otp = nanoid();
-    console.log(otp);
+    // console.log(otp);
     await sendOtpMail(email, otp);
 
     await otpModel.create({ email, otp });
