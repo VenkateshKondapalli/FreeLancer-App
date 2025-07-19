@@ -1,3 +1,4 @@
+const { uploadImgToCloudinary } = require("../../../config/cloudnary");
 const { clientModel } = require("../../../models/clientSchema");
 const { freelancerModel } = require("../../../models/freeLancerSchema");
 const { HandleGenericAPIError } = require("../../../utils/controllerHelper");
@@ -124,9 +125,43 @@ const updateProfileController = async (req, res) => {
   }
 };
 
+const uploadDPController = async (req, res) => {
+  const uploadedFile = await uploadImgToCloudinary(req.file.path);
+  console.log(uploadedFile);
+  const { role, email } = req.user;
+  let userData;
+  if (role === "freelancer") {
+    userData = await freelancerModel.findOne({ email });
+    const { _id: userId } = userData;
+    await freelancerModel.findByIdAndUpdate(userId, {
+      imageUrl: uploadedFile.url,
+    });
+  } else if (role === "client") {
+    userData = await clientModel.findOne({ email });
+    const { _id: userId } = userData;
+    await clientModel.findByIdAndUpdate(userId, {
+      imageUrl: uploadedFile.url,
+    });
+  } else {
+    return res.status(400).json({
+      isSuccess: false,
+      message: "Invalid user role",
+      data: {},
+    });
+  }
+  res.status(201).json({
+    isSuccess: true,
+    message: "file uploaded",
+    data: {
+      imageUrl: uploadedFile.url,
+    },
+  });
+};
+
 module.exports = {
   sendUserBasicInfoController,
   createProfileDataController,
   sentUserInformation,
   updateProfileController,
+  uploadDPController,
 };

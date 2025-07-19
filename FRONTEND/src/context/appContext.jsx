@@ -10,7 +10,7 @@ export function useAppContext() {
 }
 
 const AppContextProvider = ({ children }) => {
-  const [appLoading, setAppLoading] = useState(true);
+  const [appLoading, setAppLoading] = useState(false);
   const [user, setUser] = useState({ isAuthenticated: false });
 
   const getUserDetails = async () => {
@@ -31,6 +31,8 @@ const AppContextProvider = ({ children }) => {
     } catch (err) {
       console.log(err.message);
       // ErrorToast("Error in user Validation ", err.message);
+    } finally {
+      setAppLoading(false);
     }
   };
   useEffect(() => {
@@ -38,6 +40,7 @@ const AppContextProvider = ({ children }) => {
   }, []);
   const valueObj = {
     appLoading,
+    setAppLoading,
     user,
   };
 

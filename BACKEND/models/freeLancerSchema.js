@@ -29,6 +29,10 @@ const freelancerSchema = new Schema(
     bio: {
       type: String,
     },
+    imageUrl: {
+      type: String,
+      trim: true,
+    },
   },
   {
     versionKey: false,

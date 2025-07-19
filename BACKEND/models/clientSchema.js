@@ -29,6 +29,10 @@ const clientSchema = new Schema(
     description: {
       type: String,
     },
+    imageUrl: {
+      type: String,
+      trim: true,
+    },
   },
   {
     versionKey: false,
