@@ -7,7 +7,7 @@ const DUMMY_IMAGE =
   "https://img.freepik.com/premium-vector/vector-flat-illustration-grayscale-avatar-user-profile-person-icon-profile-picture-business-profile-woman-suitable-social-media-profiles-icons-screensavers-as-templatex9_719432-1351.jpg?semt=ais_hybrid&w=740";
 
 const ClientProfileContainer = () => {
-  const { user } = useAppContext();
+  const { user, setImageUrl } = useAppContext();
   const { email, role } = user;
   const [userExist, setUserExist] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -36,6 +36,9 @@ const ClientProfileContainer = () => {
           budgetRange: userData.budgetRange || "",
           description: userData.description || "",
         });
+        setImageUrl(userData.imageUrl || "");
+        console.log(userData.imageUrl);
+        // setImageUrl(userData.imageUrl);
         setUserExist(true);
       } else {
         setUserExist(false);

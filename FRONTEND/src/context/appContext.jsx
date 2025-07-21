@@ -12,6 +12,7 @@ export function useAppContext() {
 const AppContextProvider = ({ children }) => {
   const [appLoading, setAppLoading] = useState(false);
   const [user, setUser] = useState({ isAuthenticated: false });
+  const [imageUrl, setImageUrl] = useState("");
 
   const getUserDetails = async () => {
     try {
@@ -38,10 +39,13 @@ const AppContextProvider = ({ children }) => {
   useEffect(() => {
     getUserDetails();
   }, []);
+
   const valueObj = {
     appLoading,
     setAppLoading,
     user,
+    imageUrl,
+    setImageUrl,
   };
 
   return <AppContext.Provider value={valueObj}>{children}</AppContext.Provider>;

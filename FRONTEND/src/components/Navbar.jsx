@@ -1,22 +1,13 @@
 import { Link, useNavigate } from "react-router";
 import { useAppContext } from "../context/appContext";
 import { axiosInstance } from "../axios/axiosInstance";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const { user = {} } = useAppContext();
-  const { isAuthenticated, imageUrl, role } = user;
-  const [scrolled, setScrolled] = useState(false);
+  const { user, imageUrl } = useAppContext();
+  const { isAuthenticated, role } = user || {};
   const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const handleLogout = async () => {
     try {
@@ -28,13 +19,7 @@ const Navbar = () => {
   };
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 w-full ${
-        scrolled
-          ? "bg-gradient-to-r from-indigo-700 to-purple-700 shadow-lg py-2"
-          : "bg-gradient-to-r from-indigo-600 to-purple-600 shadow-md py-4"
-      } transition-all duration-300`}
-    >
+    <header className="fixed top-0 left-0 right-0 z-50 w-full bg-gradient-to-r from-indigo-600 to-purple-600 shadow-md py-4">
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex justify-between items-center">
           {/* Logo */}
@@ -76,22 +61,7 @@ const Navbar = () => {
 
           {/* Right Side */}
           <div className="flex items-center gap-4">
-            {!isAuthenticated ? (
-              <>
-                <Link
-                  to="/signup"
-                  className="hidden sm:block text-white font-medium hover:text-indigo-100 transition duration-200"
-                >
-                  Sign Up
-                </Link>
-                <Link
-                  to="/login"
-                  className="hidden sm:block bg-white text-indigo-600 font-semibold px-4 py-2 rounded-full shadow-md hover:bg-indigo-50 transition duration-300"
-                >
-                  Log In
-                </Link>
-              </>
-            ) : (
+            {isAuthenticated ? (
               <>
                 <div className="hidden md:flex items-center gap-4">
                   <span className="text-white font-medium capitalize">
@@ -111,13 +81,33 @@ const Navbar = () => {
                       <img
                         src={imageUrl}
                         alt="Profile"
-                        className="h-full w-full object-cover"
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.parentElement.innerHTML =
+                            '<span class="text-indigo-600 font-bold">👤</span>';
+                        }}
                       />
                     ) : (
                       <span className="text-indigo-600 font-bold">👤</span>
                     )}
                   </div>
                 </div>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/signup"
+                  className="hidden sm:block text-white font-medium hover:text-indigo-100 transition duration-200"
+                >
+                  Sign Up
+                </Link>
+                <Link
+                  to="/login"
+                  className="hidden sm:block bg-white text-indigo-600 font-semibold px-4 py-2 rounded-full shadow-md hover:bg-indigo-50 transition duration-300"
+                >
+                  Log In
+                </Link>
               </>
             )}
 
@@ -186,14 +176,39 @@ const Navbar = () => {
                   >
                     Messages
                   </Link>
-                  <div className="pt-2 border-t border-indigo-500">
-                    <button
-                      onClick={handleLogout}
-                      className="w-full bg-white text-indigo-600 font-semibold px-4 py-2 rounded-full shadow-md hover:bg-indigo-50 transition duration-300"
+                  <div className="flex items-center gap-3 pt-2 border-t border-indigo-500">
+                    <div
+                      onClick={() => {
+                        navigate("/profile");
+                        setMenuOpen(false);
+                      }}
+                      className="h-10 w-10 rounded-full bg-white flex items-center justify-center cursor-pointer shadow-inner overflow-hidden"
                     >
-                      Logout
-                    </button>
+                      {imageUrl ? (
+                        <img
+                          src={imageUrl}
+                          alt="Profile"
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.parentElement.innerHTML =
+                              '<span class="text-indigo-600 font-bold">👤</span>';
+                          }}
+                        />
+                      ) : (
+                        <span className="text-indigo-600 font-bold">👤</span>
+                      )}
+                    </div>
+                    <span className="text-white font-medium capitalize">
+                      {role}
+                    </span>
                   </div>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full bg-white text-indigo-600 font-semibold px-4 py-2 rounded-full shadow-md hover:bg-indigo-50 transition duration-300"
+                  >
+                    Logout
+                  </button>
                 </>
               ) : (
                 <>

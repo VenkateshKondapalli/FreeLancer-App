@@ -11,7 +11,6 @@ const HomePage = () => {
   const isClient = role === "client";
 
   useEffect(() => {
-    // Set time-based greeting
     const hour = new Date().getHours();
     setGreeting(
       hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening"

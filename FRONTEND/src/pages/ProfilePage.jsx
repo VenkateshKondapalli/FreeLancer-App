@@ -6,7 +6,7 @@ import { useAppContext } from "../context/appContext";
 import { Loader } from "../components/Loader";
 
 const ProfilePage = () => {
-  const { user, isLoading: contextLoading } = useAppContext();
+  const { user, appLoading: contextLoading } = useAppContext();
   const [isLoading, setIsLoading] = useState(true);
   const { role } = user || {};
 

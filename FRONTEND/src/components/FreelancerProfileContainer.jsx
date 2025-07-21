@@ -7,7 +7,7 @@ const DUMMY_IMAGE =
   "https://img.freepik.com/premium-vector/vector-flat-illustration-grayscale-avatar-user-profile-person-icon-profile-picture-business-profile-woman-suitable-social-media-profiles-icons-screensavers-as-templatex9_719432-1351.jpg?semt=ais_hybrid&w=740";
 
 const FreelancerProfileContainer = () => {
-  const { user } = useAppContext();
+  const { user, setImageUrl } = useAppContext();
   const { email, role } = user;
   const inputFileRef = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -36,6 +36,7 @@ const FreelancerProfileContainer = () => {
           experience: userData.experience || "",
           bio: userData.bio || "",
         });
+        setImageUrl(userData.imageUrl || "");
         setUserExist(true);
       } else {
         setUserExist(false);
