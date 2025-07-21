@@ -94,157 +94,160 @@ const SignupPage = () => {
   };
 
   return (
-    <>
+    <div className="bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900 min-h-screen flex flex-col">
       <Navbar />
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center py-10 px-4 transition-colors duration-300">
-        <div className="w-full max-w-md bg-gray-800 shadow-xl rounded-2xl overflow-hidden border border-gray-700">
-          {/* Header with gradient */}
-          <div className="bg-gradient-to-r from-purple-600 to-blue-600 p-6 text-center">
-            <h2 className="text-3xl font-bold text-white">Join FreelanceHub</h2>
-            <p className="text-blue-200 mt-2">
+
+      <div className="flex-grow flex items-center justify-center px-4 pt-10">
+        <div className="w-full max-w-md bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-lg p-8 space-y-6 transition-all duration-300 hover:shadow-xl border border-blue-900/30">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold text-blue-400 tracking-tight">
+              Join FreelanceHub
+            </h2>
+            <p className="text-blue-200 mt-1">
               {isSendOtp ? "Complete your registration" : "Create your account"}
             </p>
           </div>
 
-          <div className="p-8 space-y-6">
-            <div className="space-y-4">
-              {/* Name Field */}
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
-                  Full Name
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  className={`w-full px-4 py-3 rounded-lg bg-gray-700 text-white ${
-                    errors.name ? "border-red-500" : "border-gray-600"
-                  } border focus:outline-none focus:ring-2 focus:ring-blue-500`}
-                  placeholder="John Doe"
-                  value={formData.name}
-                  onChange={handleChange}
-                />
-                {errors.name && (
-                  <p className="text-red-400 text-xs mt-1">{errors.name}</p>
-                )}
-              </div>
-
-              {/* Role Field */}
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
-                  I want to join as
-                </label>
-                <select
-                  name="role"
-                  className={`w-full px-4 py-3 rounded-lg bg-gray-700 text-white ${
-                    errors.role ? "border-red-500" : "border-gray-600"
-                  } border focus:outline-none focus:ring-2 focus:ring-blue-500`}
-                  value={formData.role}
-                  onChange={handleChange}
-                >
-                  <option value="" className="text-gray-400">
-                    Select your role
-                  </option>
-                  <option value="freelancer" className="text-white">
-                    Freelancer
-                  </option>
-                  <option value="client" className="text-white">
-                    Client
-                  </option>
-                </select>
-                {errors.role && (
-                  <p className="text-red-400 text-xs mt-1">{errors.role}</p>
-                )}
-              </div>
-
-              {/* Email Field */}
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  className={`w-full px-4 py-3 rounded-lg bg-gray-700 text-white ${
-                    errors.email ? "border-red-500" : "border-gray-600"
-                  } border focus:outline-none focus:ring-2 focus:ring-blue-500`}
-                  placeholder="your@email.com"
-                  value={formData.email}
-                  onChange={handleChange}
-                />
-                {errors.email && (
-                  <p className="text-red-400 text-xs mt-1">{errors.email}</p>
-                )}
-              </div>
-
-              {/* Conditional Password and OTP Fields */}
-              {isSendOtp && (
-                <>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-1">
-                      Create Password
-                    </label>
-                    <input
-                      type="password"
-                      name="password"
-                      className={`w-full px-4 py-3 rounded-lg bg-gray-700 text-white ${
-                        errors.password ? "border-red-500" : "border-gray-600"
-                      } border focus:outline-none focus:ring-2 focus:ring-blue-500`}
-                      placeholder="••••••••"
-                      value={formData.password}
-                      onChange={handleChange}
-                    />
-                    {errors.password && (
-                      <p className="text-red-400 text-xs mt-1">
-                        {errors.password}
-                      </p>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-1">
-                      Enter OTP
-                    </label>
-                    <input
-                      type="text"
-                      name="otp"
-                      className={`w-full px-4 py-3 rounded-lg bg-gray-700 text-white ${
-                        errors.otp ? "border-red-500" : "border-gray-600"
-                      } border focus:outline-none focus:ring-2 focus:ring-blue-500`}
-                      placeholder="123456"
-                      value={formData.otp}
-                      onChange={handleChange}
-                    />
-                    {errors.otp && (
-                      <p className="text-red-400 text-xs mt-1">{errors.otp}</p>
-                    )}
-                  </div>
-                </>
+          <div className="space-y-4">
+            {/* Name Field */}
+            <div className="space-y-1">
+              <label className="block text-sm font-medium text-blue-300">
+                Full Name
+              </label>
+              <input
+                type="text"
+                name="name"
+                className={`w-full px-4 py-3 rounded-xl bg-gray-700/50 text-blue-100 border ${
+                  errors.name ? "border-red-500" : "border-blue-800/50"
+                } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 placeholder-blue-400/50`}
+                placeholder="John Doe"
+                value={formData.name}
+                onChange={handleChange}
+              />
+              {errors.name && (
+                <p className="text-red-400 text-xs mt-1">{errors.name}</p>
               )}
-
-              {/* Submit Button */}
-              <button
-                onClick={isSendOtp ? handleRegister : handleSentOtp}
-                className="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-md transition-all duration-300 mt-4"
-              >
-                {isSendOtp ? "Create Account" : "Send Verification OTP"}
-              </button>
-
-              {/* Redirect to Login */}
-              <p className="text-sm text-center text-gray-400 mt-4">
-                Already have an account?{" "}
-                <Link
-                  to="/login"
-                  className="text-blue-400 hover:text-blue-300 font-medium hover:underline"
-                >
-                  Sign in instead
-                </Link>
-              </p>
             </div>
+
+            {/* Role Field */}
+            <div className="space-y-1">
+              <label className="block text-sm font-medium text-blue-300">
+                I want to join as
+              </label>
+              <select
+                name="role"
+                className={`w-full px-4 py-3 rounded-xl bg-gray-700/50 text-blue-100 border ${
+                  errors.role ? "border-red-500" : "border-blue-800/50"
+                } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200`}
+                value={formData.role}
+                onChange={handleChange}
+              >
+                <option value="" className="text-blue-400/50">
+                  Select your role
+                </option>
+                <option value="freelancer" className="text-blue-100">
+                  Freelancer
+                </option>
+                <option value="client" className="text-blue-100">
+                  Client
+                </option>
+              </select>
+              {errors.role && (
+                <p className="text-red-400 text-xs mt-1">{errors.role}</p>
+              )}
+            </div>
+
+            {/* Email Field */}
+            <div className="space-y-1">
+              <label className="block text-sm font-medium text-blue-300">
+                Email Address
+              </label>
+              <input
+                type="email"
+                name="email"
+                className={`w-full px-4 py-3 rounded-xl bg-gray-700/50 text-blue-100 border ${
+                  errors.email ? "border-red-500" : "border-blue-800/50"
+                } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 placeholder-blue-400/50`}
+                placeholder="your@email.com"
+                value={formData.email}
+                onChange={handleChange}
+              />
+              {errors.email && (
+                <p className="text-red-400 text-xs mt-1">{errors.email}</p>
+              )}
+            </div>
+
+            {/* Conditional Password and OTP Fields */}
+            {isSendOtp && (
+              <>
+                <div className="space-y-1">
+                  <label className="block text-sm font-medium text-blue-300">
+                    Create Password
+                  </label>
+                  <input
+                    type="password"
+                    name="password"
+                    className={`w-full px-4 py-3 rounded-xl bg-gray-700/50 text-blue-100 border ${
+                      errors.password ? "border-red-500" : "border-blue-800/50"
+                    } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 placeholder-blue-400/50`}
+                    placeholder="••••••••"
+                    value={formData.password}
+                    onChange={handleChange}
+                  />
+                  {errors.password && (
+                    <p className="text-red-400 text-xs mt-1">
+                      {errors.password}
+                    </p>
+                  )}
+                </div>
+
+                <div className="space-y-1">
+                  <label className="block text-sm font-medium text-blue-300">
+                    Enter OTP
+                  </label>
+                  <input
+                    type="text"
+                    name="otp"
+                    className={`w-full px-4 py-3 rounded-xl bg-gray-700/50 text-blue-100 border ${
+                      errors.otp ? "border-red-500" : "border-blue-800/50"
+                    } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 placeholder-blue-400/50`}
+                    placeholder="123456"
+                    value={formData.otp}
+                    onChange={handleChange}
+                  />
+                  {errors.otp && (
+                    <p className="text-red-400 text-xs mt-1">{errors.otp}</p>
+                  )}
+                </div>
+              </>
+            )}
+
+            {/* Submit Button */}
+            <button
+              onClick={isSendOtp ? handleRegister : handleSentOtp}
+              disabled={appLoading}
+              className={`w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white font-semibold rounded-xl shadow-md transition-all duration-200 transform hover:scale-[1.01] active:scale-95 ${
+                appLoading ? "opacity-75 cursor-not-allowed" : ""
+              }`}
+            >
+              {isSendOtp ? "Create Account" : "Send Verification OTP"}
+            </button>
+
+            {/* Redirect to Login */}
+            <p className="text-sm text-center text-blue-300 pt-2">
+              Already have an account?{" "}
+              <Link
+                to="/login"
+                className="text-blue-400 font-medium hover:underline hover:text-blue-300 transition-colors"
+              >
+                Sign in instead
+              </Link>
+            </p>
           </div>
         </div>
       </div>
       {appLoading && <Loader />}
-    </>
+    </div>
   );
 };
 

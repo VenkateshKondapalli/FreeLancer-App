@@ -1,7 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef, useState } from "react";
 import { axiosInstance } from "../axios/axiosInstance";
 import { useAppContext } from "../context/appContext";
 import { ErrorToast, SuccessToast } from "../utils/toastHelper";
+import { Loader } from "../components/Loader"; // Import your custom Loader
 
 const DUMMY_IMAGE =
   "https://img.freepik.com/premium-vector/vector-flat-illustration-grayscale-avatar-user-profile-person-icon-profile-picture-business-profile-woman-suitable-social-media-profiles-icons-screensavers-as-templatex9_719432-1351.jpg?semt=ais_hybrid&w=740";
@@ -12,6 +14,7 @@ const FreelancerProfileContainer = () => {
   const inputFileRef = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [isImageUploading, setIsImageUploading] = useState(false); // New state for image upload
 
   const [profile, setProfile] = useState({
     imageUrl: "",
@@ -90,17 +93,17 @@ const FreelancerProfileContainer = () => {
   const handleDPUpload = async (e) => {
     if (!e.target.files || e.target.files.length === 0) return;
 
-    setIsLoading(true);
+    setIsImageUploading(true); // Set image upload loading state
     try {
       const formData = new FormData();
       formData.append("displayPicture", e.target.files[0]);
       await axiosInstance.put("/users/display-picture", formData);
       SuccessToast("Profile picture updated successfully");
-      await getUserDetails();
+      getUserDetails();
     } catch (err) {
       ErrorToast(err.response?.data?.message || "Image upload failed");
     } finally {
-      setIsLoading(false);
+      setIsImageUploading(false);
     }
   };
 
@@ -110,7 +113,12 @@ const FreelancerProfileContainer = () => {
 
   return (
     <div className="max-w-2xl mx-auto p-4 sm:p-8">
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700 transition-colors duration-300">
+      {isLoading && <Loader message="Loading profile..." />}
+      {isImageUploading && (
+        <Loader message="Uploading image..." overlayClassName="bg-black/80" />
+      )}
+
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700 transition-colors duration-300 relative">
         {/* Header */}
         <div className="bg-gradient-to-r from-blue-600 to-blue-500 dark:from-blue-800 dark:to-blue-700 p-6 text-center">
           <h2 className="text-2xl sm:text-3xl font-bold text-white">
@@ -123,27 +131,28 @@ const FreelancerProfileContainer = () => {
 
         {/* Profile Content */}
         <div className="p-6 sm:p-8 space-y-6">
-          {isLoading && (
-            <div className="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center z-10 rounded-xl">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-            </div>
-          )}
-
           {/* Profile Picture Section */}
-          <div className="flex flex-col items-center gap-4">
+          <div className="flex flex-col items-center gap-4 relative">
             <div
               className="relative group cursor-pointer"
               onClick={() => inputFileRef.current.click()}
             >
-              <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-white dark:border-gray-700 shadow-md group-hover:border-blue-400 transition-all duration-300">
+              <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-white dark:border-gray-700 shadow-md group-hover:border-blue-400 transition-all duration-300 relative">
                 <img
                   src={profile.imageUrl || DUMMY_IMAGE}
-                  className="w-full h-full object-cover group-hover:opacity-80 transition-opacity"
+                  className={`w-full h-full object-cover transition-opacity ${
+                    isImageUploading ? "opacity-50" : "group-hover:opacity-80"
+                  }`}
                   alt="Profile"
                   onError={(e) => {
                     e.target.src = DUMMY_IMAGE;
                   }}
                 />
+                {isImageUploading && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                  </div>
+                )}
               </div>
               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                 <span className="bg-black bg-opacity-60 text-white text-xs px-3 py-1 rounded-full">
