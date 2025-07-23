@@ -49,12 +49,6 @@ const Navbar = () => {
                 >
                   Projects
                 </Link>
-                <Link
-                  to="/messages"
-                  className="text-white font-medium hover:text-indigo-100 transition duration-200"
-                >
-                  Messages
-                </Link>
               </>
             )}
           </div>

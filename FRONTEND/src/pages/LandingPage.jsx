@@ -25,7 +25,7 @@ const LandingPage = () => {
         <div className="lg:w-1/2 flex flex-col items-center lg:items-start space-y-8 text-center lg:text-left">
           <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 dark:text-white leading-tight">
             Connect With Top{" "}
-            <span className="text-blue-600 dark:text-blue-400 bg-gradient-to-r from-blue-500 to-blue-700 dark:from-blue-400 dark:to-blue-600 bg-clip-text text-transparent">
+            <span className="text-blue-600 dark:text-blue-400 bg-gradient-to-r from-blue-500 to-blue-700 dark:from-blue-400 dark:to-blue-600 bg-clip-text ">
               Freelancers
             </span>{" "}
             &{" "}

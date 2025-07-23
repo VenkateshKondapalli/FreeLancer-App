@@ -5,6 +5,7 @@ import { LoginPage } from "./pages/LoginPage";
 import { PageNotFound } from "./pages/PageNotFound";
 import { ProfilePage } from "./pages/ProfilePage";
 import LandingPage from "./pages/LandingPage";
+import { ProjectPage } from "./pages/ProjectPage";
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/projects" element={<ProjectPage />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>

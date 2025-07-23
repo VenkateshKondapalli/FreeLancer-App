@@ -3,13 +3,35 @@ const { clientModel } = require("../../../models/clientSchema");
 const { freelancerModel } = require("../../../models/freeLancerSchema");
 const { HandleGenericAPIError } = require("../../../utils/controllerHelper");
 
-const sendUserBasicInfoController = (req, res) => {
+const sendUserBasicInfoController = async (req, res) => {
   const userInfo = req.user;
+  const { role, email } = userInfo;
+  let name;
+
+  if (role === "freelancer") {
+    const freelancer = await freelancerModel
+      .findOne({ email })
+      .select("fullName");
+    // console.log(freelancer);
+    name = freelancer?.fullName;
+  } else if (role === "client") {
+    const client = await clientModel.findOne({ email }).select("fullName");
+    // console.log(client);
+    name = client?.fullName;
+  } else {
+    return res.status(400).json({
+      isSuccess: false,
+      message: "Invalid role",
+      data: {},
+    });
+  }
+  // console.log(name);
   res.status(200).json({
     isSuccess: true,
     message: "user is valid",
     data: {
       userInfo,
+      name,
     },
   });
 };

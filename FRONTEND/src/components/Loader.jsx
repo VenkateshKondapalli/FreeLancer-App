@@ -1,68 +1,69 @@
+import React from "react";
+
 const Loader = () => {
+  const spinClockwise = {
+    animation: "spin 1s linear infinite",
+  };
+
+  const spinCounter = {
+    animation: "spin 1s linear infinite reverse",
+  };
+
+  const pulseDot = {
+    animation: "pulse 1.5s ease-in-out infinite",
+  };
+
+  const pulseDotDelay = {
+    animation: "pulse 1.5s ease-in-out infinite 0.5s",
+  };
+
+  const keyframes = `
+   @keyframes spin {
+ to { transform: rotate(360deg); }
+ }
+
+ @keyframes pulse {
+ 0%, 100% { opacity: 1; transform: scale(1); }
+ 50% { opacity: 0.4; transform: scale(1.2); }
+ }
+ `;
+
   return (
-    <div className="fixed inset-0 bg-gray-950/95 backdrop-blur-lg flex items-center justify-center z-50">
-      <div className="flex flex-col items-center justify-center gap-6">
-        {/* Advanced 3D Orb with Holographic Effect */}
-        <div className="relative w-28 h-28">
-          {/* Outer Glow */}
-          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-500/30 to-indigo-600/30 blur-[8px] animate-pulse-glow" />
-
-          {/* Main Sphere with 3D Illusion */}
-          <div className="absolute inset-1 rounded-full bg-gradient-to-br from-blue-600 via-indigo-700 to-purple-800 shadow-[0_0_40px_0_rgba(59,130,246,0.6)] animate-pulse-3d">
-            {/* Holographic Rings */}
-            <div className="absolute inset-0 rounded-full border-[3px] border-transparent border-t-blue-400/70 animate-spin-3d" />
-            <div
-              className="absolute inset-0 rounded-full border-[3px] border-transparent border-r-indigo-400/60 animate-spin-3d-reverse"
-              style={{ animationDelay: "0.3s" }}
-            />
-            <div
-              className="absolute inset-2 rounded-full border-[2px] border-transparent border-b-purple-300/50 animate-spin-3d"
-              style={{ animationDelay: "0.6s" }}
-            />
-
-            {/* Core Light */}
-            <div className="absolute inset-4 rounded-full bg-gradient-to-br from-white/20 to-transparent" />
-
-            {/* Floating Particles */}
-            {[...Array(6)].map((_, i) => (
-              <div
-                key={i}
-                className="absolute w-1.5 h-1.5 rounded-full bg-blue-300/80 animate-float"
-                style={{
-                  top: `${Math.random() * 60 + 20}%`,
-                  left: `${Math.random() * 60 + 20}%`,
-                  animationDelay: `${i * 0.2}s`,
-                }}
-              />
-            ))}
+    <>
+      <style>{keyframes}</style>{" "}
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+        {" "}
+        <div className="relative w-24 h-24">
+          {/* Outer ring */}{" "}
+          <div
+            className="absolute inset-0 rounded-full border-4 border-transparent border-t-blue-500 border-r-blue-400 shadow-lg shadow-blue-500/30"
+            style={spinClockwise}
+          ></div>
+          {/* Inner ring */}{" "}
+          <div
+            className="absolute inset-4 rounded-full border-4 border-transparent border-b-blue-500 border-l-blue-400 shadow-md shadow-blue-400/20"
+            style={spinCounter}
+          ></div>
+          {/* Center circle */}{" "}
+          <div className="absolute inset-6 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-md border border-white/10">
+            {" "}
+            <span className="text-sm font-semibold text-blue-400 tracking-wide">
+              Loading...{" "}
+            </span>{" "}
           </div>
-        </div>
-
-        {/* Animated Text with Typing Effect */}
-        <div className="text-center">
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-indigo-300 font-medium tracking-wider text-sm uppercase relative">
-            <span className="inline-flex items-center">
-              Loading
-              <span className="ml-1.5 flex">
-                {[...Array(3)].map((_, i) => (
-                  <span
-                    key={i}
-                    className="animate-wave text-indigo-300"
-                    style={{
-                      animationDelay: `${i * 0.15}s`,
-                      transformOrigin: "bottom center",
-                    }}
-                  >
-                    .
-                  </span>
-                ))}
-              </span>
-            </span>
-            <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-blue-400/50 to-transparent animate-scan" />
-          </span>
-        </div>
-      </div>
-    </div>
+          {/* Top dot */}{" "}
+          <div
+            className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-blue-400"
+            style={pulseDot}
+          ></div>
+          {/* Bottom dot */}{" "}
+          <div
+            className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-3 h-3 rounded-full bg-blue-300"
+            style={pulseDotDelay}
+          ></div>{" "}
+        </div>{" "}
+      </div>{" "}
+    </>
   );
 };
 

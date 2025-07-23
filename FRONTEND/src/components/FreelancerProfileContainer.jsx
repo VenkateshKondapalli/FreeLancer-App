@@ -31,14 +31,18 @@ const FreelancerProfileContainer = () => {
       const resp = await axiosInstance.get("/users/details");
 
       if (resp.status === 200 && resp.data.isSuccess) {
+        console.log(resp.data);
         const userData = resp.data.data;
         setProfile({
           imageUrl: userData.imageUrl || "",
           fullName: userData.fullName || "",
-          skills: userData.skills || "",
+          skills: Array.isArray(userData.skills)
+            ? userData.skills.join(", ")
+            : userData.skills || "",
           experience: userData.experience || "",
           bio: userData.bio || "",
         });
+
         setImageUrl(userData.imageUrl || "");
         setUserExist(true);
       } else {
@@ -59,6 +63,10 @@ const FreelancerProfileContainer = () => {
       email,
       role,
       ...profile,
+      skills: profile.skills
+        .split(",")
+        .map((skill) => skill.trim())
+        .filter((skill) => skill !== ""),
     };
 
     try {
@@ -225,21 +233,36 @@ const FreelancerProfileContainer = () => {
               />
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Skills (comma separated)
+            <div className="mb-6">
+              <label className="block text-sm font-semibold text-gray-200 mb-1">
+                Skills <span className="text-gray-400">(comma separated)</span>
               </label>
+
               <input
                 type="text"
                 name="skills"
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600 transition bg-white dark:bg-gray-700 text-gray-800 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
                 value={profile.skills}
                 onChange={handleInputChange}
                 placeholder="e.g. React, Node.js, UI/UX Design"
+                className="w-full px-4 py-2 rounded-md border border-gray-600 bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150"
               />
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+
+              <p className="text-xs text-gray-400 mt-1">
                 Separate multiple skills with commas
               </p>
+
+              {/* Render skill tags */}
+              <div className="flex flex-wrap gap-2 mt-3">
+                {profile.skills &&
+                  profile.skills.split(",").map((skill, index) => (
+                    <span
+                      key={index}
+                      className="inline-block bg-blue-600/20 text-blue-300 text-xs font-medium px-3 py-1 rounded-full shadow-sm border border-blue-500/30"
+                    >
+                      {skill.trim()}
+                    </span>
+                  ))}
+              </div>
             </div>
 
             <div>
