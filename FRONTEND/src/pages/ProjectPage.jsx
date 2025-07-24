@@ -1,16 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Navbar } from "../components/Navbar";
 import { axiosInstance } from "../axios/axiosInstance";
 import { ErrorToast, SuccessToast } from "../utils/toastHelper";
 import { ProjectCardsAll } from "../components/ProjectCardsAll";
 import { useAppContext } from "../context/appContext";
+import { MyProjects } from "../components/MyProjects";
 
 const ProjectPage = () => {
   const { user } = useAppContext();
   const { role, name } = user;
-  console.log(name, user);
 
   const [showForm, setShowForm] = useState(false);
+  const [activeTab, setActiveTab] = useState("all");
   const [project, setProject] = useState({
     title: "",
     description: "",
@@ -21,6 +22,15 @@ const ProjectPage = () => {
     deadline: "",
     status: "open",
   });
+
+  useEffect(() => {
+    if (role === "client" && name) {
+      setProject((prev) => ({
+        ...prev,
+        clientName: name,
+      }));
+    }
+  }, [role, name]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,12 +45,11 @@ const ProjectPage = () => {
       const resp = await axiosInstance.post("/project", project);
       if (resp.status === 201 && resp.data.isSucess) {
         console.log(resp.data);
-        SuccessToast("Project Added Successfully");
-        // Optionally reset form and hide it after successful submission
+        SuccessToast("Project Added Successfully"); // Reset form and hide it
         setProject({
           title: "",
           description: "",
-          clientName: "",
+          clientName: role === "client" ? name : "",
           freelancerName: "",
           technologies: "",
           budget: "",
@@ -77,6 +86,13 @@ const ProjectPage = () => {
                 className="w-full p-2 border rounded"
                 onChange={handleChange}
                 value={project.title}
+              />
+              <input
+                type="text"
+                name="clientName"
+                className="w-full p-2 border rounded bg-gray-100"
+                value={project.clientName}
+                readOnly
               />
               <textarea
                 name="description"
@@ -119,7 +135,6 @@ const ProjectPage = () => {
                 <option value="in progress">In Progress</option>
                 <option value="completed">Completed</option>
               </select>
-
               <button
                 className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
                 onClick={handleAddProject}
@@ -131,12 +146,57 @@ const ProjectPage = () => {
         </div>
       )}
 
-      <div className={`p-6 ${role !== "client" ? "pt-24" : ""}`}>
-        <h2 className="text-2xl font-bold text-gray-800 mb-6">All Projects</h2>
-        <ProjectCardsAll />
+      <div className={`p-6 ${role === "client" ? "" : "pt-24"}`}>
+        {/* Tabs above heading - matches your screenshot */}
+        <div className="flex mb-2">
+          {" "}
+          {/* Reduced margin-bottom */}
+          <button
+            className={`px-4 py-2 font-medium ${
+              activeTab === "all"
+                ? "text-blue-600 border-b-2 border-blue-600"
+                : "text-gray-500 hover:text-gray-700 hover:border-b-2 hover:border-gray-300"
+            }`}
+            onClick={() => setActiveTab("all")}
+          >
+            All Projects
+          </button>
+          <button
+            className={`px-4 py-2 font-medium ${
+              activeTab === "my"
+                ? "text-blue-600 border-b-2 border-blue-600"
+                : "text-gray-500 hover:text-gray-700 hover:border-b-2 hover:border-gray-300"
+            }`}
+            onClick={() => setActiveTab("my")}
+          >
+            {role === "client" ? "My Projects" : "My Assignments"}
+          </button>
+        </div>
+
+        {/* Heading below tabs */}
+        <h2 className="text-2xl font-bold text-gray-800 mb-6">
+          {activeTab === "all"
+            ? "All Projects"
+            : role === "client"
+            ? "My Projects"
+            : "My Assignments"}
+        </h2>
+
+        {activeTab === "all" ? (
+          <ProjectCardsAll />
+        ) : role === "client" ? (
+          <MyProjects />
+        ) : (
+          <MyProjects />
+        )}
       </div>
     </div>
   );
 };
 
 export { ProjectPage };
+
+{
+  /* <h2 className="text-2xl font-bold text-gray-800 mb-6">All Projects</h2>
+        <ProjectCardsAll /> */
+}

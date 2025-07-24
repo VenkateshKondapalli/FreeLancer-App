@@ -22,9 +22,11 @@ const AppContextProvider = ({ children }) => {
 
       if (resp.data.isSuccess) {
         // console.log(resp.data);
+        const { userInfo, name } = resp.data.data;
         setUser({
           isAuthenticated: true,
-          ...resp.data.data.userInfo,
+          ...userInfo,
+          name,
         });
       } else {
         ErrorToast("Error in user validation", resp.data.message);

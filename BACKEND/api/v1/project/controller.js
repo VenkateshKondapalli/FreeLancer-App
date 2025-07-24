@@ -59,8 +59,68 @@ const sendAllProjectController = async (req, res) => {
   }
 };
 
+const registerController = async (req, res) => {
+  try {
+    const { id, name: freelancerName } = req.body;
+
+    const updatedData = await projectModel.findByIdAndUpdate(
+      id,
+      { freelancerName },
+      { new: true }
+    );
+
+    if (!updatedData) {
+      return res.status(404).json({
+        isSuccess: false,
+        message: "Project not found",
+        data: {},
+      });
+    }
+
+    return res.status(200).json({
+      isSuccess: true,
+      message: "Registered successfully",
+      data: updatedData,
+    });
+  } catch (err) {
+    HandleGenericAPIError("registerController", res, err);
+  }
+};
+
+const sendMyProjectDetails = async (req, res) => {
+  const { name, role } = req.body;
+  let userProject;
+  if (role === "client") {
+    userProject = await projectModel.find({ clientName: name });
+  } else if (role === "freelancer") {
+    userProject = await projectModel.find({ freelancerName: name });
+  } else {
+    return res.status(400).json({
+      isSuccess: false,
+      message: "role needs to be client or freelancer",
+      data: {},
+    });
+  }
+
+  if (!userProject) {
+    return res.status(400).json({
+      isSuccess: false,
+      message: "no project found or no project registered",
+      data: {},
+    });
+  }
+
+  res.status(200).json({
+    isSuccess: true,
+    message: "user project data fetched succesfully ",
+    data: userProject,
+  });
+};
+
 module.exports = {
   createProjectController,
   updateProjectController,
   sendAllProjectController,
+  registerController,
+  sendMyProjectDetails,
 };

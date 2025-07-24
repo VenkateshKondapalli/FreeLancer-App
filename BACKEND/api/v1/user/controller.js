@@ -16,8 +16,8 @@ const sendUserBasicInfoController = async (req, res) => {
     name = freelancer?.fullName;
   } else if (role === "client") {
     const client = await clientModel.findOne({ email }).select("fullName");
-    // console.log(client);
     name = client?.fullName;
+    // console.log(name);
   } else {
     return res.status(400).json({
       isSuccess: false,
