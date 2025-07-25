@@ -11,7 +11,6 @@ const morgan = require("morgan");
 const { apiRouter } = require("./api/v1/routes.js");
 
 const app = express();
-
 app.use(morgan("dev"));
 
 app.use(
