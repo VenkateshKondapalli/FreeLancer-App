@@ -22,7 +22,6 @@ const ProjectPage = () => {
     deadline: "",
     status: "open",
   });
-
   useEffect(() => {
     if (role === "client" && name) {
       setProject((prev) => ({
@@ -195,8 +194,3 @@ const ProjectPage = () => {
 };
 
 export { ProjectPage };
-
-{
-  /* <h2 className="text-2xl font-bold text-gray-800 mb-6">All Projects</h2>
-        <ProjectCardsAll /> */
-}

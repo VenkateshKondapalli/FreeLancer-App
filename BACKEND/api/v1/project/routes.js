@@ -20,6 +20,7 @@ projectRouter.get("/", sendAllProjectController);
 projectRouter.get("/myProject", sendMyProjectDetails);
 
 projectRouter.patch("/register", registerValidator, registerController);
+
 module.exports = { projectRouter };
 
 // projectRouter.patch("/", updateProjectValidator, updateProjectController);

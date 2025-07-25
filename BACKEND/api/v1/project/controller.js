@@ -1,3 +1,4 @@
+const { freelancerModel } = require("../../../models/freeLancerSchema");
 const { projectModel } = require("../../../models/projectSchema");
 const { HandleGenericAPIError } = require("../../../utils/controllerHelper");
 
@@ -88,33 +89,63 @@ const registerController = async (req, res) => {
 };
 
 const sendMyProjectDetails = async (req, res) => {
-  const { name, role } = req.body;
-  let userProject;
-  if (role === "client") {
-    userProject = await projectModel.find({ clientName: name });
-  } else if (role === "freelancer") {
-    userProject = await projectModel.find({ freelancerName: name });
-  } else {
-    return res.status(400).json({
+  try {
+    const { role, email } = req.user;
+    let userProjects;
+
+    if (role === "client") {
+      const client = await clientModel.findOne({ email }).select("fullName");
+      if (!client) {
+        return res.status(404).json({
+          isSuccess: false,
+          message: "Client not found",
+          data: {},
+        });
+      }
+      userProjects = await projectModel.find({ clientName: client.fullName });
+    } else if (role === "freelancer") {
+      const freelancer = await freelancerModel
+        .findOne({ email })
+        .select("fullName");
+      if (!freelancer) {
+        return res.status(404).json({
+          isSuccess: false,
+          message: "Freelancer not found",
+          data: {},
+        });
+      }
+      userProjects = await projectModel.find({
+        freelancerName: freelancer.fullName,
+      });
+    } else {
+      return res.status(400).json({
+        isSuccess: false,
+        message: "Role needs to be client or freelancer",
+        data: {},
+      });
+    }
+
+    if (!userProjects || userProjects.length === 0) {
+      return res.status(404).json({
+        isSuccess: false,
+        message: "No projects found",
+        data: [],
+      });
+    }
+
+    res.status(200).json({
+      isSuccess: true,
+      message: "User project data fetched successfully",
+      data: userProjects,
+    });
+  } catch (error) {
+    console.error("Error in sendMyProjectDetails:", error);
+    res.status(500).json({
       isSuccess: false,
-      message: "role needs to be client or freelancer",
+      message: "Internal server error",
       data: {},
     });
   }
-
-  if (!userProject) {
-    return res.status(400).json({
-      isSuccess: false,
-      message: "no project found or no project registered",
-      data: {},
-    });
-  }
-
-  res.status(200).json({
-    isSuccess: true,
-    message: "user project data fetched succesfully ",
-    data: userProject,
-  });
 };
 
 module.exports = {
