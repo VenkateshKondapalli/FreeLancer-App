@@ -63,14 +63,14 @@ const ProjectCardsAll = () => {
       {projects.map((project) => (
         <div
           key={project._id}
-          className="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow"
+          className="bg-gray-800 shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow border border-gray-700"
         >
-          <h1 className="text-xl font-semibold text-blue-700 mb-2">
+          <h1 className="text-xl font-semibold text-blue-400 mb-2">
             {project.title}
           </h1>
-          <p className="text-gray-700 mb-3">{project.description}</p>
+          <p className="text-gray-300 mb-3">{project.description}</p>
 
-          <div className="space-y-1 text-sm text-gray-600">
+          <div className="space-y-1 text-sm text-gray-400">
             <p>👤 Client: {project.clientName || "Not assigned"}</p>
             <p>👷 Freelancer: {project.freelancerName || "Not assigned"}</p>
             <p>💰 Budget: ₹{project.budget || "Negotiable"}</p>
@@ -78,7 +78,7 @@ const ProjectCardsAll = () => {
             <p>📅 Deadline: {project.deadline}</p>
             <p
               className={`${
-                project.status === "open" ? "text-green-600" : "text-gray-600"
+                project.status === "open" ? "text-green-400" : "text-gray-400"
               }`}
             >
               {project.status === "open" ? "🟢 Open" : "🔴 Closed"}
@@ -89,7 +89,7 @@ const ProjectCardsAll = () => {
             !project.freelancerName &&
             project.status === "open" && (
               <button
-                className="mt-3 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition-colors"
+                className="mt-3 bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded transition-colors"
                 onClick={() => {
                   handleRegister(project._id, authUser.name);
                 }}
