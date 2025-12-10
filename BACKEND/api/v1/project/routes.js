@@ -23,4 +23,4 @@ projectRouter.patch("/register", registerValidator, registerController);
 
 module.exports = { projectRouter };
 
-// projectRouter.patch("/", updateProjectValidator, updateProjectController);
+projectRouter.patch("/", updateProjectValidator, updateProjectController);
