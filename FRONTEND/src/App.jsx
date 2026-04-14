@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { HomePage } from "./pages/HomePage";
 import { SignupPage } from "./pages/SignupPage";
 import { LoginPage } from "./pages/LoginPage";
@@ -8,15 +8,24 @@ import LandingPage from "./pages/LandingPage";
 import { ProjectPage } from "./pages/ProjectPage";
 import ReactGA from "react-ga4";
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
 
-ReactGA.initialize("G-WB3B9RPBB0");
+const GA_MEASUREMENT_ID =
+    import.meta.env.VITE_GA_MEASUREMENT_ID || "G-WB3B9RPBB0";
+const IS_TRACKING_ENABLED = import.meta.env.PROD && Boolean(GA_MEASUREMENT_ID);
 
-// 🔥 Tracking component
+if (IS_TRACKING_ENABLED) {
+    ReactGA.initialize(GA_MEASUREMENT_ID);
+}
+
+// Track route changes as pageviews in production.
 const AnalyticsTracker = () => {
     const location = useLocation();
 
     useEffect(() => {
+        if (!IS_TRACKING_ENABLED) {
+            return;
+        }
+
         ReactGA.send({
             hitType: "pageview",
             page: location.pathname,
